@@ -156,7 +156,7 @@ function collideBallRacket( ballStart, ballEnd, racketStart, racketEnd ) {
 		// cut the trajectory of the ball and the racket in 10
 		// interpolated points
 
-		const distanceSets = [];
+		let distanceSets = [];
 
 		for ( let i=0 ; i<11 ; i++ ) {
 
@@ -191,13 +191,15 @@ function collideBallRacket( ballStart, ballEnd, racketStart, racketEnd ) {
 
 		// sort the sets by distance
 
-		distanceSets
+		distanceSets = distanceSets
 
 		.map( (set) => {
 
 			setPlaneFromPosRot( set.racket.position, set.racket.rotation );
 
-			set.distance = Math.abs( plane.distanceToPoint( set.ball ) );
+			const test = Math.abs( plane.distanceToPoint( set.ball ) );
+
+			set.distance = test;
 
 			return set
 
@@ -215,8 +217,6 @@ function collideBallRacket( ballStart, ballEnd, racketStart, racketEnd ) {
 		// then recursively call this function to get closer
 
 		if ( distanceSets[0].distance > 0.1 ) {
-
-			console.log('iterate')
 
 			collideBallRacket(
 				distanceSets[0].ball,
