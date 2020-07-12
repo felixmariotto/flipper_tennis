@@ -3,9 +3,6 @@ import * as THREE from 'three';
 
 import Rackets from './Rackets.js';
 
-// temp
-import Scene from '../core/Scene.js';
-
 //
 
 const plane = new THREE.Plane();
@@ -13,6 +10,8 @@ const plane = new THREE.Plane();
 const line3 = new THREE.Line3();
 
 const vec3 = new THREE.Vector3();
+
+const lerp = THREE.MathUtils.lerp;
 
 //
 
@@ -31,26 +30,34 @@ function recordRacketPos( racket ) {
 
 		racketsPos[ racket.id ] = {
 			start: {
-				position: undefined,
-				rotation: undefined
+				position: new THREE.Vector3(),
+				rotation: new THREE.Euler()
 			},
 			end: {
-				position: new THREE.Vector3( racket.position ),
-				rotation: new THREE.Euler( racket.rotation )
+				position: new THREE.Vector3().copy( racket.position ),
+				rotation: new THREE.Euler().copy( racket.rotation )
 			}
 		}
 
 	} else {
 
-		racketsPos[ racket.id ].start = {
-			position: racketsPos[ racket.id ].end.position,
-			rotation: racketsPos[ racket.id ].end.rotation
-		};
+		racketsPos[ racket.id ].start.position.copy(
+			racketsPos[ racket.id ].end.position
+		);
 
-		racketsPos[ racket.id ].end = {
-			position: racket.position,
-			rotation: racket.rotation
-		};
+		racketsPos[ racket.id ].start.rotation.copy(
+			racketsPos[ racket.id ].end.rotation
+		);
+
+		//
+
+		racketsPos[ racket.id ].end.position.copy(
+			racket.position
+		);
+
+		racketsPos[ racket.id ].end.rotation.copy(
+			racket.rotation
+		);
 
 	}
 
@@ -89,61 +96,6 @@ function collideBallWithRackets( ball ) {
 		});
 
 	};
-
-	
-
-
-
-	/*
-
-	if ( ballsPos[ ball.id ] ) {
-
-		// set line according to this ball current and previous positions
-
-		line3.start = ballsPos[ ball.id ];
-
-		line3.end = ball.position;
-
-		//
-
-		Rackets.rackets.forEach( (racket) => {
-
-			// set plane according to this racket's position and rotation
-
-			vec3
-			.set( 0, 1, 0 )
-			.applyEuler( racket.rotation )
-			.normalize();
-
-			plane.setFromNormalAndCoplanarPoint( vec3, racket.position )
-
-			// if the racket crosses the line created from ball current and last positions
-
-			if ( plane.intersectsLine( line3 ) ) {
-
-				// use the direction of the racket and the length of
-				// the ball velocity vector to compute the new
-				// velocity after hit by the racket
-
-				vec3
-				.multiplyScalar( ball.velocity.length() )
-				.negate();
-
-				// move ball to position where it didn't yet cross the racket,
-				// in order to avoid a new collision on the way back,
-				// then apply the new velocity.
-				
-				ball.position.copy( ballsPos[ ball.id ] );
-
-				ball.velocity.copy( vec3 );
-
-			}
-
-		})
-
-	}
-
-	*/
 
 	// record current ball position for later
 
@@ -200,7 +152,85 @@ function collideBallRacket( ballStart, ballEnd, racketStart, racketEnd ) {
 		IntersectRacketStart ||
 		IntersectRacketEnd
 	) {
-		console.log('got it')
+		
+		// cut the trajectory of the ball and the racket in 10
+		// interpolated points
+
+		const distanceSets = [];
+
+		for ( let i=0 ; i<11 ; i++ ) {
+
+			const factor = i / 10;
+
+			distanceSets[ i ] = {};
+
+			// interpolated ball positions
+
+			distanceSets[ i ].ball = new THREE.Vector3(
+				lerp( ballStart.x, ballEnd.x, factor ),
+				lerp( ballStart.y, ballEnd.y, factor ),
+				lerp( ballStart.z, ballEnd.z, factor )
+			)
+
+			// interpolated rackets position
+
+			distanceSets[ i ].racket = {
+				position: new THREE.Vector3(
+					lerp( racketStart.position.x, racketEnd.position.x, factor ),
+					lerp( racketStart.position.y, racketEnd.position.y, factor ),
+					lerp( racketStart.position.z, racketEnd.position.z, factor )
+				),
+				rotation: new THREE.Euler(
+					lerp( racketStart.rotation.x, racketEnd.rotation.x, factor ),
+					lerp( racketStart.rotation.y, racketEnd.rotation.y, factor ),
+					lerp( racketStart.rotation.z, racketEnd.rotation.z, factor )
+				)
+			}
+
+		}
+
+		// sort the sets by distance
+
+		distanceSets
+
+		.map( (set) => {
+
+			setPlaneFromPosRot( set.racket.position, set.racket.rotation );
+
+			set.distance = Math.abs( plane.distanceToPoint( set.ball ) );
+
+			return set
+
+		})
+
+		.sort( (set1, set2) => {
+
+			return set1.distance > set2.distance ? 1 : -1;
+
+		});
+
+		if ( distanceSets[0].distance > distanceSets[1].distance ) distanceSets.reverse()
+
+		// if closest approach is farther than a ball diameter,
+		// then recursively call this function to get closer
+
+		if ( distanceSets[0].distance > 0.1 ) {
+
+			console.log('iterate')
+
+			collideBallRacket(
+				distanceSets[0].ball,
+				distanceSets[1].ball,
+				distanceSets[0].racket,
+				distanceSets[1].racket,
+			);
+
+		} else {
+
+			console.log( distanceSets[0].distance )
+
+		}
+
 	}
 
 }
