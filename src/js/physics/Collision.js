@@ -221,6 +221,8 @@ function collideBallRacket( ball, racket, ballStart, ballEnd, racketStart, racke
 		if ( distanceSets[0].distance > ball.radius ) {
 
 			collideBallRacket(
+				ball,
+				racket,
 				distanceSets[0].ball,
 				distanceSets[1].ball,
 				distanceSets[0].racket,

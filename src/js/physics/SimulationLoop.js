@@ -20,7 +20,7 @@ function update( delta ) {
 
 		// set position and rotation from controller
 
-		const newZPos = Math.sin( Date.now() / 100 );
+		const newZPos = Math.sin( Date.now() / 50 );
 
 		racket.velocity.z = newZPos - racket.position.z;
 
