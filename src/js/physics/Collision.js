@@ -87,6 +87,8 @@ function collideBallWithRackets( ball ) {
 			// trigger collision search with individual rackets
 
 			collideBallRacket(
+				ball,
+				racket,
 				ballsPos[ ball.id ],
 				ball.position,
 				racketsPos[ racket.id ].start,
@@ -113,7 +115,7 @@ function collideBallWithRackets( ball ) {
 
 // collide ball with individual racket from the racket records
 
-function collideBallRacket( ballStart, ballEnd, racketStart, racketEnd ) {
+function collideBallRacket( ball, racket, ballStart, ballEnd, racketStart, racketEnd ) {
 
 	//////////////////////////////////////////
 	// broadly check for a possible collision
@@ -216,7 +218,7 @@ function collideBallRacket( ballStart, ballEnd, racketStart, racketEnd ) {
 		// if closest approach is farther than a ball diameter,
 		// then recursively call this function to get closer
 
-		if ( distanceSets[0].distance > 0.1 ) {
+		if ( distanceSets[0].distance > ball.radius ) {
 
 			collideBallRacket(
 				distanceSets[0].ball,
@@ -225,9 +227,14 @@ function collideBallRacket( ballStart, ballEnd, racketStart, racketEnd ) {
 				distanceSets[1].racket,
 			);
 
-		} else {
+		// check if the ball is within the area of the racket
+		} else if ( distanceSets[0].ball.distanceTo( distanceSets[0].racket.position ) < racket.radius ) {
 
-			console.log( distanceSets[0].distance )
+			ball.velocity.negate();
+
+			ball.velocity.add( racket.velocity );
+
+			ball.position.add( ball.velocity )
 
 		}
 
