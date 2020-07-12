@@ -31,8 +31,8 @@ function recordRacketPos( racket ) {
 
 		racketsPos[ racket.id ] = {
 			start: {
-				position: new THREE.Vector3( racket.position ),
-				rotation: new THREE.Euler( racket.rotation )
+				position: undefined,
+				rotation: undefined
 			},
 			end: {
 				position: new THREE.Vector3( racket.position ),
@@ -43,8 +43,8 @@ function recordRacketPos( racket ) {
 	} else {
 
 		racketsPos[ racket.id ].start = {
-			position: racket.position,
-			rotation: racket.rotation
+			position: racketsPos[ racket.id ].end.position,
+			rotation: racketsPos[ racket.id ].end.rotation
 		};
 
 		racketsPos[ racket.id ].end = {
@@ -59,6 +59,42 @@ function recordRacketPos( racket ) {
 //
 
 function collideBallWithRackets( ball ) {
+
+	// if previous ball position was recorded,
+	// we trigger collision search with each racket.
+
+	if ( ballsPos[ ball.id ] ) {
+
+		Rackets.rackets.forEach( (racket) => {
+
+			// abort if the racket record is not full
+
+			if (
+				!racketsPos[ racket.id ] ||
+				!racketsPos[ racket.id ].start ||
+				!racketsPos[ racket.id ].end
+			) {
+				return
+			}
+
+			// trigger collision search with individual rackets
+
+			collideBallRacket(
+				ballsPos[ ball.id ],
+				ball.position,
+				racketsPos[ racket.id ].start,
+				racketsPos[ racket.id ].end
+			);
+
+		});
+
+	};
+
+	
+
+
+
+	/*
 
 	if ( ballsPos[ ball.id ] ) {
 
@@ -107,6 +143,8 @@ function collideBallWithRackets( ball ) {
 
 	}
 
+	*/
+
 	// record current ball position for later
 
 	if ( !ballsPos[ ball.id ] ) {
@@ -120,6 +158,66 @@ function collideBallWithRackets( ball ) {
 	}
 
 }
+
+// collide ball with individual racket from the racket records
+
+function collideBallRacket( ballStart, ballEnd, racketStart, racketEnd ) {
+
+	//////////////////////////////////////////
+	// broadly check for a possible collision
+	//////////////////////////////////////////
+
+	// set line from ball previous and current position
+
+	line3.start = ballStart;
+
+	line3.end = ballEnd;
+
+	//
+
+	setPlaneFromPosRot( racketStart.position, racketStart.rotation );
+
+	const IntersectRacketStart = plane.intersectsLine( line3 );
+
+	const distRackStartBallStart = plane.distanceToPoint( ballStart );
+
+	const distRackStartBallEnd = plane.distanceToPoint( ballEnd );
+
+	setPlaneFromPosRot( racketEnd.position, racketEnd.rotation );
+
+	const IntersectRacketEnd = plane.intersectsLine( line3 );
+
+	const distRackEndBallStart = plane.distanceToPoint( ballStart );
+
+	const distRackEndBallEnd = plane.distanceToPoint( ballEnd );
+
+	// check if a racket plane is crossing the line or
+	// if at least one ball is between the two planes
+
+	if (
+		Math.sign( distRackStartBallStart ) !== Math.sign( distRackEndBallStart ) ||
+		Math.sign( distRackStartBallEnd ) !== Math.sign( distRackEndBallEnd ) ||
+		IntersectRacketStart ||
+		IntersectRacketEnd
+	) {
+		console.log('got it')
+	}
+
+}
+
+// set the plane from a position and a rotation,
+// in order to match the surface of the racket
+
+function setPlaneFromPosRot( position, rotation ) {
+
+	vec3
+	.set( 0, 1, 0 )
+	.applyEuler( rotation )
+	.normalize();
+
+	plane.setFromNormalAndCoplanarPoint( vec3, position )
+
+};
 
 //
 
