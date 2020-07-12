@@ -27,7 +27,8 @@ function Ball() {
 		mesh,
 		radius: BALL_RADIUS,
 		position: new THREE.Vector3().copy( BALL_START_POS ),
-		velocity: new THREE.Vector3().copy( BALL_START_VEL )
+		velocity: new THREE.Vector3().copy( BALL_START_VEL ),
+		id: (Math.random() * 1000000).toFixed(0)
 	}
 
 }
