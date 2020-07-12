@@ -18,6 +18,14 @@ function update( delta ) {
 
 	Rackets.rackets.forEach( (racket) => {
 
+		// set position and rotation from controller
+
+		racket.position.z = Math.sin( Date.now() / 1000 );
+
+		Collision.recordRacketPos( racket );
+
+		// apply position and rotation to the mesh
+
 		racket.mesh.position.copy( racket.position );
 		racket.mesh.rotation.copy( racket.rotation );
 

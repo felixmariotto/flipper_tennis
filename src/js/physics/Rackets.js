@@ -34,7 +34,8 @@ function Racket() {
 		radius: RACKET_RADIUS,
 		position: new THREE.Vector3().copy( RACKET_START_POS ),
 		rotation: new THREE.Euler().copy( RACKET_START_ROT ),
-		velocity: new THREE.Vector3()
+		velocity: new THREE.Vector3(),
+		id: ( Math.random() * 1000000 ).toFixed()
 	}
 
 }

@@ -16,7 +16,45 @@ const vec3 = new THREE.Vector3();
 
 //
 
-const ballsPos = {}
+// contains arrays : [previousPos and currentPos]
+const racketsPos = {};
+
+// contains only the vec3 representing the last ball position
+const ballsPos = {};
+
+// keep the current position of the racket in racketsPos so we can
+// collide balls at high speed between rackets last and current position
+
+function recordRacketPos( racket ) {
+
+	if ( !racketsPos[ racket.id ] ) {
+
+		racketsPos[ racket.id ] = {
+			start: {
+				position: new THREE.Vector3( racket.position ),
+				rotation: new THREE.Euler( racket.rotation )
+			},
+			end: {
+				position: new THREE.Vector3( racket.position ),
+				rotation: new THREE.Euler( racket.rotation )
+			}
+		}
+
+	} else {
+
+		racketsPos[ racket.id ].start = {
+			position: racket.position,
+			rotation: racket.rotation
+		};
+
+		racketsPos[ racket.id ].end = {
+			position: racket.position,
+			rotation: racket.rotation
+		};
+
+	}
+
+}
 
 //
 
@@ -43,9 +81,13 @@ function collideBallWithRackets( ball ) {
 
 			plane.setFromNormalAndCoplanarPoint( vec3, racket.position )
 
-			// if the racket cross the line created from ball current and last positions
+			// if the racket crosses the line created from ball current and last positions
 
 			if ( plane.intersectsLine( line3 ) ) {
+
+				// use the direction of the racket and the length of
+				// the ball velocity vector to compute the new
+				// velocity after hit by the racket
 
 				vec3
 				.multiplyScalar( ball.velocity.length() )
@@ -82,5 +124,6 @@ function collideBallWithRackets( ball ) {
 //
 
 export default {
+	recordRacketPos,
 	collideBallWithRackets
 }
