@@ -1,9 +1,22 @@
 
 import World from './World.js';
+import Balls from './Balls.js';
+import Rackets from './Rackets.js';
 
 function update( delta ) {
 
-	// console.log('delta : ', delta);
+	Balls.balls.forEach( (ball) => {
+
+		ball.mesh.position.copy( ball.position );
+
+	});
+
+	Rackets.rackets.forEach( (racket) => {
+
+		racket.mesh.position.copy( racket.position );
+		racket.mesh.rotation.copy( racket.rotation );
+
+	});
 
 }
 

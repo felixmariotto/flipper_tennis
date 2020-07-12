@@ -12,6 +12,8 @@ import Loop from './js/core/Loop.js';
 import SceneDecoration from './js/SceneDecoration.js';
 import VRControls from './js/VRControls.js';
 
+import GameManager from './js/GameManager.js';
+
 //
 
 window.addEventListener( 'resize', onWindowResize, false );
