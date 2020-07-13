@@ -5,7 +5,7 @@ import Scene from '../core/Scene.js';
 
 //
 
-const RACKET_RADIUS = 0.2;
+const RACKET_RADIUS = 0.15;
 
 const RACKET_THICKNESS = 0.02;
 
@@ -25,7 +25,7 @@ function Racket() {
 		RACKET_RADIUS,
 		RACKET_RADIUS,
 		RACKET_THICKNESS,
-		16
+		32
 	);
 
 	const mesh = new THREE.Mesh( racketGeom, RACKET_MATERIAL );
