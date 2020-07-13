@@ -9,7 +9,8 @@ const RACKET_RADIUS = 0.2;
 
 const RACKET_THICKNESS = 0.02;
 
-const RACKET_START_POS = new THREE.Vector3( 0, 1.1, 0 );
+const RACKET_START_POS = new THREE.Vector3( 0, 0, 0 );
+// const RACKET_START_POS = new THREE.Vector3( 0, 1.1, 0 );
 const RACKET_START_ROT = new THREE.Euler( Math.PI / 2, 0, 0 );
 
 const RACKET_MATERIAL = new THREE.MeshBasicMaterial({ color: 0x999999 });
