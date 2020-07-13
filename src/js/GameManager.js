@@ -14,6 +14,4 @@ function startGame() {
 
 	Balls.popBall();
 
-	Rackets.popRacket();
-
 }

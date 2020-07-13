@@ -36,7 +36,8 @@ function Racket() {
 		position: new THREE.Vector3().copy( RACKET_START_POS ),
 		rotation: new THREE.Euler().copy( RACKET_START_ROT ),
 		velocity: new THREE.Vector3(),
-		id: ( Math.random() * 1000000 ).toFixed()
+		id: ( Math.random() * 1000000 ).toFixed(),
+		controller: undefined // defined by VRControl.js
 	}
 
 }
@@ -50,6 +51,8 @@ function popRacket() {
 	rackets.push( newRacket );
 
 	Scene.threeScene.add( newRacket.mesh );
+
+	return newRacket
 
 }
 

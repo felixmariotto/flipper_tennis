@@ -26,6 +26,9 @@ function update( delta ) {
 		racket.position.z = newZPos;
 		*/
 
+		racket.position.copy( racket.controller.position );
+
+		// record position for collision with balls
 		Collision.recordRacketPos( racket );
 
 		// apply position and rotation to the mesh

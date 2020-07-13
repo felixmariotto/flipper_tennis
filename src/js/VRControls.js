@@ -9,10 +9,26 @@ import { XRControllerModelFactory } from 'three/examples/jsm/webxr/XRControllerM
 import Renderer from './core/Renderer.js';
 import Scene from './core/Scene.js';
 
+import Rackets from './physics/Rackets.js';
+
 //
 
 Renderer.threeRenderer.xr.addEventListener('sessionstart', (e) => {
-	console.log('session started')
+	
+	const controller0 = Renderer.threeRenderer.xr.getControllerGrip( 0 );
+
+	const racket0 = Rackets.popRacket();
+
+	racket.controller = controller0;
+
+	//
+
+	const controller1 = Renderer.threeRenderer.xr.getControllerGrip( 1 );
+
+	const racket1 = Rackets.popRacket();
+
+	racket.controller = controller1;
+
 })
 
 //
