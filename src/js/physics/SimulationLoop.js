@@ -26,6 +26,10 @@ function update( delta ) {
 		racket.position.z = newZPos;
 		*/
 
+		racket.velocity
+		.copy( racket.controller.position )
+		.sub( racket.position )
+
 		racket.rotation.copy( racket.controller.rotation );
 		racket.position.copy( racket.controller.position );
 
