@@ -93,9 +93,9 @@ const controller2 = Renderer.threeRenderer.xr.getController( 1 );
 controller1.name = "controller-right";
 controller2.name = "controller-left";
 
-controller1.addEventListener('connected', (event) => {
+// create one racket for each controller
 
-	console.log('controller connected')
+controller1.addEventListener('connected', (event) => {
 
 	controller1.inputSource = event.data;
 
@@ -104,6 +104,18 @@ controller1.addEventListener('connected', (event) => {
 	racket.controller = controller1;
 
 });
+
+controller2.addEventListener('connected', (event) => {
+
+	controller2.inputSource = event.data;
+
+	const racket = Rackets.popRacket();
+
+	racket.controller = controller2;
+
+});
+
+//
 
 const controllerGrip1 = Renderer.threeRenderer.xr.getControllerGrip( 0 );
 const controllerGrip2 = Renderer.threeRenderer.xr.getControllerGrip( 1 );
