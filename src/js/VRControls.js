@@ -11,6 +11,12 @@ import Scene from './core/Scene.js';
 
 //
 
+Renderer.threeRenderer.xr.addEventListener('sessionstart', (e) => {
+	console.log('session started')
+})
+
+//
+
 const controllers = [];
 const controllerGrips = [];
 

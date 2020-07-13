@@ -20,11 +20,11 @@ function update( delta ) {
 
 		// set position and rotation from controller
 
+		/*
 		const newZPos = Math.sin( Date.now() / 50 );
-
 		racket.velocity.z = newZPos - racket.position.z;
-
 		racket.position.z = newZPos;
+		*/
 
 		Collision.recordRacketPos( racket );
 
