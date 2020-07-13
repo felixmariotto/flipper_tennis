@@ -13,26 +13,6 @@ import Rackets from './physics/Rackets.js';
 
 //
 
-Renderer.threeRenderer.xr.addEventListener('sessionstart', (e) => {
-	
-	const controller0 = Renderer.threeRenderer.xr.getControllerGrip( 0 );
-
-	const racket0 = Rackets.popRacket();
-
-	racket.controller = controller0;
-
-	//
-
-	const controller1 = Renderer.threeRenderer.xr.getControllerGrip( 1 );
-
-	const racket1 = Rackets.popRacket();
-
-	racket.controller = controller1;
-
-})
-
-//
-
 const controllers = [];
 const controllerGrips = [];
 
@@ -112,6 +92,18 @@ const controller2 = Renderer.threeRenderer.xr.getController( 1 );
 
 controller1.name = "controller-right";
 controller2.name = "controller-left";
+
+controller1.addEventListener('connected', (event) => {
+
+	console.log('controller connected')
+
+	controller1.inputSource = event.data;
+
+	const racket = Rackets.popRacket();
+
+	racket.controller = controller1;
+
+});
 
 const controllerGrip1 = Renderer.threeRenderer.xr.getControllerGrip( 0 );
 const controllerGrip2 = Renderer.threeRenderer.xr.getControllerGrip( 1 );
