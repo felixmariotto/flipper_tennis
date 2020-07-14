@@ -13,6 +13,7 @@ const BALL_MATERIAL = new THREE.MeshBasicMaterial({ color: 0x000000 });
 
 const BALL_START_POS = new THREE.Vector3( 0, 0.7, -3 );
 const BALL_START_VEL = new THREE.Vector3( 0, 0, 0 );
+const BALL_SHOT_SPEED = 1;
 
 //
 
@@ -32,6 +33,7 @@ function Ball() {
 		position: new THREE.Vector3().copy( startPosition ),
 		velocity: new THREE.Vector3().copy( BALL_START_VEL ),
 		id: (Math.random() * 1000000).toFixed(0),
+		shotSpeed: BALL_SHOT_SPEED,
 		reset
 	}
 

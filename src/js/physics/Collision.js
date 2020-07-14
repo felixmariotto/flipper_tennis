@@ -241,6 +241,17 @@ function collideBallRacket( ball, racket, ballStart, ballEnd, racketStart, racke
 
 			ball.velocity.reflect( plane.normal );
 
+			// increase velocity to match the ball shot speed
+
+			const ballSpeed = ball.velocity.length();
+
+			if ( ballSpeed < ball.shotSpeed ) {
+
+				ball.velocity.multiplyScalar( ball.shotSpeed / ballSpeed );
+
+			};
+
+			/*
 			// add part of racket velocity to ball velocity
 
 			const racketDragFactor = 0.5 - Math.max(0, (racket.velocity.distanceTo( ball.velocity ) / Math.PI) - 0.5)
@@ -252,6 +263,7 @@ function collideBallRacket( ball, racket, ballStart, ballEnd, racketStart, racke
 			.multiplyScalar( racketDragFactor )
 
 			ball.velocity.add( addedVelocity );
+			*/
 
 			// push the ball out of the racket to avoid false collision next frame
 
