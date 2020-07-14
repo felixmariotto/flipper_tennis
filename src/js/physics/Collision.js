@@ -251,19 +251,26 @@ function collideBallRacket( ball, racket, ballStart, ballEnd, racketStart, racke
 
 			};
 
-			/*
-			// add part of racket velocity to ball velocity
+			// add racket speed to ball speed of racket is going roughly in the right direction
 
-			const racketDragFactor = 0.5 - Math.max(0, (racket.velocity.distanceTo( ball.velocity ) / Math.PI) - 0.5)
+			// angle between the ball and the racket velocity vectors
+			const racketBallAngle = ball.velocity.angleTo( racket.velocity );
 
-			const addedVelocity = new THREE.Vector3();
+			// ignore if the racket was going backward relative to the ball direction
+			if ( racketBallAngle < Math.PI / 2 ) {
 
-			addedVelocity
-			.copy( racket.velocity )
-			.multiplyScalar( racketDragFactor )
+				// between 0 and 1, representing angle ratio between the racket and the ball
+				const accuracy = 1 - (racketBallAngle / (Math.PI / 2));
 
-			ball.velocity.add( addedVelocity );
-			*/
+				// vector to add to ball velocity
+				const toAdd = new THREE.Vector3().copy( ball.velocity );
+
+				// set this vector length from racket speed + accuracy
+				toAdd.setLength( accuracy * racket.velocity.length() * 0.5 );
+
+				ball.velocity.add( toAdd );
+
+			}
 
 			// push the ball out of the racket to avoid false collision next frame
 
