@@ -233,21 +233,11 @@ function collideBallRacket( ball, racket, ballStart, ballEnd, racketStart, racke
 		} else if ( distanceSets[0].ball.distanceTo( distanceSets[0].racket.position ) < racket.radius ) {
 
 			setPlaneFromPosRot(
-				new THREE.Vector3(),
+				distanceSets[0].racket.position,
 				distanceSets[0].racket.rotation
 			);
 
-			const projectedVec = plane.projectPoint( ball.velocity, new THREE.Vector3() );
-
-			const toAdd = new THREE.Vector3()
-			.copy( ball.velocity )
-			.sub( projectedVec );
-
-			ball.velocity
-			.copy( projectedVec )
-			.add( toAdd );
-
-			// ball.velocity.negate();
+			ball.velocity.reflect( plane.normal )
 
 			ball.velocity.add( racket.velocity );
 
