@@ -138,7 +138,9 @@ controllers.forEach( (controller)=> {
 });
 
 controllerGrips.forEach( (controllerGrip)=> {
+
 	controllerGrip.add( controllerModelFactory.createControllerModel( controllerGrip ) );
+
 });
 
 Scene.add(

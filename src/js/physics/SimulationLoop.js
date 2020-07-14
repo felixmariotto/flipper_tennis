@@ -38,8 +38,8 @@ function update( delta ) {
 
 		// apply position and rotation to the mesh
 
-		racket.mesh.position.copy( racket.position );
-		racket.mesh.rotation.copy( racket.rotation );
+		// racket.mesh.position.copy( racket.position );
+		// racket.mesh.rotation.copy( racket.rotation );
 
 	});
 
