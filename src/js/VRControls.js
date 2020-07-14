@@ -93,28 +93,6 @@ const controller2 = Renderer.threeRenderer.xr.getController( 1 );
 controller1.name = "controller-right";
 controller2.name = "controller-left";
 
-// create one racket for each controller
-
-controller1.addEventListener('connected', (event) => {
-
-	controller1.inputSource = event.data;
-
-	const racket = Rackets.popRacket();
-
-	racket.controller = controller1;
-
-});
-
-controller2.addEventListener('connected', (event) => {
-
-	controller2.inputSource = event.data;
-
-	const racket = Rackets.popRacket();
-
-	racket.controller = controller2;
-
-});
-
 //
 
 const controllerGrip1 = Renderer.threeRenderer.xr.getControllerGrip( 0 );
@@ -134,6 +112,20 @@ controllers.forEach( (controller)=> {
 	controller.add( ray, point );
 	controller.ray = ray;
 	controller.point = point;
+
+	// create one racket for each controller
+
+	controller.addEventListener('connected', (event) => {
+
+		controller.inputSource = event.data;
+
+		const racket = Rackets.popRacket();
+
+		racket.controller = controller;
+
+		controller.add( racket.mesh );
+
+	});
 
 });
 

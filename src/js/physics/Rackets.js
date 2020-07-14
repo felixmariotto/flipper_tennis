@@ -54,8 +54,6 @@ function popRacket() {
 
 	rackets.push( newRacket );
 
-	Scene.threeScene.add( newRacket.mesh );
-
 	return newRacket
 
 }
