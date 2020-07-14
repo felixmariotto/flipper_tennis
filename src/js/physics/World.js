@@ -8,7 +8,7 @@ const planes = [
 	new THREE.Plane( new THREE.Vector3( -1, 0, 0 ), 0.75 ),
 	new THREE.Plane( new THREE.Vector3( 1, 0, 0 ), 0.75 ),
 	new THREE.Plane( new THREE.Vector3( 0, -1, 0 ), 2.0 ),
-	new THREE.Plane( new THREE.Vector3( 0, 1, 0 ), 0.5 )
+	new THREE.Plane( new THREE.Vector3( 0, 1, 0 ), -0.5 )
 ];
 
 const roomMesh = new THREE.Mesh(
@@ -21,15 +21,16 @@ Scene.threeScene.add( roomMesh );
 
 // GOAL
 
-const GOAL_POS = new THREE.Vector3( 0, 1.5, -50 );
-const GOAL_RADIUS = 0.2;
+const GOAL_POS = new THREE.Vector3( 0, 1.5, -20 );
+const GOAL_RADIUS = 0.1;
 
-const goalMaterial = new THREE.Color( 0xff0000 );
+const goalMaterial = new THREE.MeshBasicMaterial( {color: 0xffff00} );
 
 const goalMesh = new THREE.Mesh(
-	new THREE.SphereBufferGeometry( GOAL_RADIUS, 16, 16 ),
+	new THREE.SphereBufferGeometry( GOAL_RADIUS, 32, 32 ),
 	goalMaterial
 );
+goalMesh.position.copy( GOAL_POS );
 
 Scene.threeScene.add( goalMesh );
 
