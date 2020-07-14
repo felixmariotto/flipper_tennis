@@ -236,7 +236,8 @@ function collideBallRacket( ball, racket, ballStart, ballEnd, racketStart, racke
 
 			// ball.velocity.negate();
 			ball.velocity
-			.applyEuler( racket.rotation )
+			// .applyEuler( racket.rotation )
+			.applyQuaternion( racket.bounceDummy.getWorldQuaternion() )
 			.normalize()
 			.multiplyScalar( ballSpeed );
 
