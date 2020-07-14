@@ -232,7 +232,13 @@ function collideBallRacket( ball, racket, ballStart, ballEnd, racketStart, racke
 		// check if the ball is within the area of the racket
 		} else if ( distanceSets[0].ball.distanceTo( distanceSets[0].racket.position ) < racket.radius ) {
 
-			ball.velocity.negate();
+			const ballSpeed = ball.velocity.length();
+
+			// ball.velocity.negate();
+			ball.velocity
+			.copy( racket.rotation )
+			.normalize()
+			.multiplyScaler( ballSpeed );
 
 			ball.velocity.add( racket.velocity );
 
