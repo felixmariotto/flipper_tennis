@@ -43,9 +43,11 @@ function Ball() {
 
 function reset() {
 
-	this.position.copy( this.startPosition );
-
 	this.velocity.copy( BALL_START_VEL );
+
+	setTimeout( () => {
+		this.position.copy( this.startPosition );
+	}, 0 );
 
 }
 
