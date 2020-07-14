@@ -9,7 +9,7 @@ const balls = [];
 
 const BALL_RADIUS = 0.1;
 
-const BALL_MATERIAL = new THREE.MeshBasicMaterial();
+const BALL_MATERIAL = new THREE.MeshBasicMaterial({ color: 0x000000 });
 
 const BALL_START_POS = new THREE.Vector3( 0, 0.7, -3 );
 const BALL_START_VEL = new THREE.Vector3( 0, 0, 0 );

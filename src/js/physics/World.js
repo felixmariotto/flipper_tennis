@@ -9,20 +9,20 @@ const planes = [
 	new THREE.Plane( new THREE.Vector3( 0, 1, 0 ), 0 )
 ];
 
+/*
 planes.forEach( (plane) => {
-
 	var helper = new THREE.PlaneHelper( plane, 1, 0xffff00 );
 	Scene.threeScene.add( helper );
-
 });
+*/
 
 const roomMesh = new THREE.Mesh(
 	new THREE.BoxBufferGeometry( 2.5, 2.5, 300 ),
-	new THREE.MeshNormalMaterial()
+	new THREE.MeshNormalMaterial({ side: THREE.BackSide })
 );
 roomMesh.position.set( 0, 1.25, 0 )
 
-scene.add( roomMesh );
+Scene.threeScene.add( roomMesh );
 
 // FUNCTIONS
 
