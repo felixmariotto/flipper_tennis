@@ -238,7 +238,7 @@ function collideBallRacket( ball, racket, ballStart, ballEnd, racketStart, racke
 			ball.velocity
 			.copy( racket.rotation )
 			.normalize()
-			.multiplyScaler( ballSpeed );
+			.multiplyScalar( ballSpeed );
 
 			ball.velocity.add( racket.velocity );
 
