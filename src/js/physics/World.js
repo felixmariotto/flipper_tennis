@@ -199,9 +199,10 @@ function bounceBall( ball ) {
 		if ( collisions.length > 0 ) {
 
 			ball.velocity.reflect( collisions[0].face.normal );
-			ball.velocity.multiplyScalar( 0.8 );
-
+			
 			ball.position.add( ball.velocity );
+
+			ball.velocity.multiplyScalar( 0.8 );
 
 		}
 
