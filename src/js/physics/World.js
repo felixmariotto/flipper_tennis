@@ -64,7 +64,7 @@ roomMesh.position.set( 0, 1.25, 0 )
 
 // GOAL
 
-const GOAL_POS = new THREE.Vector3( 0, 1.5, -10 );
+const GOAL_POS = new THREE.Vector3( 0, 1.5, -8 );
 const GOAL_RADIUS = 0.15;
 
 const goalMaterial = new THREE.MeshBasicMaterial( {color: 0xff2626} );
@@ -199,6 +199,7 @@ function bounceBall( ball ) {
 		if ( collisions.length > 0 ) {
 
 			ball.velocity.reflect( collisions[0].face.normal );
+			ball.velocity.multiplyScalar( 0.8 );
 
 			ball.position.add( ball.velocity );
 
