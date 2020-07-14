@@ -34,20 +34,20 @@ function Ball() {
 		velocity: new THREE.Vector3().copy( BALL_START_VEL ),
 		id: (Math.random() * 1000000).toFixed(0),
 		shotSpeed: BALL_SHOT_SPEED,
-		reset
+		remove
 	}
 
 }
 
 //
 
-function reset() {
+function remove() {
 
-	this.velocity.copy( BALL_START_VEL );
+	balls.splice( balls.indexOf( this ), 1 );
 
-	setTimeout( () => {
-		this.position.copy( this.startPosition );
-	}, 0 );
+	this.mesh.geometry.dispose();
+
+	Scene.threeScene.remove( this );
 
 }
 
