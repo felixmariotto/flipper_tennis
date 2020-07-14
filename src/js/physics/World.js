@@ -39,6 +39,11 @@ function bounceBall( ball ) {
 			ball.velocity.x *= 0.8;
 			ball.velocity.y *= 0.8;
 
+			// push the ball out from the wall to avoid repeated bouncing
+			plane.projectPoint( ball.position, ball.position );
+
+			ball.position.add( ball.velocity );
+
 		}
 
 	})
