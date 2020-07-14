@@ -232,6 +232,8 @@ function collideBallRacket( ball, racket, ballStart, ballEnd, racketStart, racke
 		// check if the ball is within the area of the racket
 		} else if ( distanceSets[0].ball.distanceTo( distanceSets[0].racket.position ) < racket.radius ) {
 
+			// reflect velocity according to racket orientation
+
 			setPlaneFromPosRot(
 				distanceSets[0].racket.position,
 				distanceSets[0].racket.rotation
@@ -239,7 +241,19 @@ function collideBallRacket( ball, racket, ballStart, ballEnd, racketStart, racke
 
 			ball.velocity.reflect( plane.normal );
 
-			ball.velocity.add( racket.velocity );
+			// add part of racket velocity to ball velocity
+
+			const racketDragFactor = 0.5 - Math.max(0, (racket.velocity.distanceTo( ball.velocity ) / Math.PI) - 0.5)
+
+			const addedVelocity = new THREE.Vector3();
+
+			addedVelocity
+			.copy( racket.velocity )
+			.multiplyScalar( racketDragFactor )
+
+			ball.velocity.add( addedVelocity );
+
+			// push the ball out of the racket to avoid false collision next frame
 
 			ball.position.add( ball.velocity );
 
