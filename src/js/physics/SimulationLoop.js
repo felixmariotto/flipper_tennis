@@ -32,15 +32,11 @@ function update( delta ) {
 
 		racket.position.copy( racket.controller.position );
 
+		// get rotation from rotated mesh inside controller space
 		racket.rotation.setFromQuaternion( racket.mesh.getWorldQuaternion() );
 
 		// record position for collision with balls
 		Collision.recordRacketPos( racket );
-
-		// apply position and rotation to the mesh
-
-		// racket.mesh.position.copy( racket.position );
-		// racket.mesh.rotation.copy( racket.rotation );
 
 	});
 
