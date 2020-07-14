@@ -21,10 +21,10 @@ Scene.threeScene.add( roomMesh );
 
 // GOAL
 
-const GOAL_POS = new THREE.Vector3( 0, 1.5, -20 );
-const GOAL_RADIUS = 0.1;
+const GOAL_POS = new THREE.Vector3( 0, 1.5, -10 );
+const GOAL_RADIUS = 0.15;
 
-const goalMaterial = new THREE.MeshBasicMaterial( {color: 0xffff00} );
+const goalMaterial = new THREE.MeshBasicMaterial( {color: 0xff2626} );
 
 const goalMesh = new THREE.Mesh(
 	new THREE.SphereBufferGeometry( GOAL_RADIUS, 32, 32 ),
@@ -33,6 +33,16 @@ const goalMesh = new THREE.Mesh(
 goalMesh.position.copy( GOAL_POS );
 
 Scene.threeScene.add( goalMesh );
+
+function checkGoal( ball ) {
+
+	if ( ball.position.distanceTo( GOAL_POS ) < ball.radius + GOAL_RADIUS ) {
+
+		goalMaterial.color.set( 0x51f52c )
+
+	}
+
+}
 
 // FUNCTIONS
 
