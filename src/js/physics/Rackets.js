@@ -32,7 +32,7 @@ function Racket() {
 	);
 
 	const mesh = new THREE.Mesh( racketGeom, RACKET_MATERIAL );
-	mesh.rotation.set( Math.PI / 2, 0, 0 );
+	mesh.rotation.set( 0, 0, Math.PI / 2 );
 
 	return {
 		mesh,
