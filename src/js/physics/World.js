@@ -32,7 +32,12 @@ function bounceBall( ball ) {
 
 		if ( plane.distanceToPoint( ball.position ) < 0 ) {
 
+			// bounce the ball from the wall
 			ball.velocity.reflect( plane.normal )
+
+			// avoid that the ball becomes uncontrollable between walls
+			ball.velocity.x *= 0.8;
+			ball.velocity.y *= 0.8;
 
 		}
 

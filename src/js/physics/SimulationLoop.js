@@ -8,7 +8,7 @@ import Collision from './Collision.js';
 
 const MAX_BALL_SPEED = 0.1;
 
-const GRAVITY_DRAG = 0.0005;
+const GRAVITY_DRAG = 0.00035;
 
 //
 
