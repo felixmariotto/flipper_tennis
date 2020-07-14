@@ -52,6 +52,8 @@ function update( delta ) {
 
 		ball.position.add( ball.velocity );
 
+		World.bounceBall( ball );
+
 		// collide this ball against both rackets
 		Collision.collideBallWithRackets( ball );
 

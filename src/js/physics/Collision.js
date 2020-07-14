@@ -237,11 +237,11 @@ function collideBallRacket( ball, racket, ballStart, ballEnd, racketStart, racke
 				distanceSets[0].racket.rotation
 			);
 
-			ball.velocity.reflect( plane.normal )
+			ball.velocity.reflect( plane.normal );
 
 			ball.velocity.add( racket.velocity );
 
-			ball.position.add( ball.velocity )
+			ball.position.add( ball.velocity );
 
 		}
 
