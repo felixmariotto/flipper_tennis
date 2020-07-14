@@ -200,6 +200,8 @@ function bounceBall( ball ) {
 
 			ball.velocity.reflect( collisions[0].face.normal );
 
+			ball.position.add( ball.velocity );
+
 		}
 
 	}
