@@ -40,7 +40,7 @@ function bounceBall( ball ) {
 			ball.velocity.y *= 0.8;
 
 			// push the ball out from the wall to avoid repeated bouncing
-			plane.projectPoint( ball.position, ball.position );
+			ball.position.copy( plane.projectPoint( ball.position, new THREE.Vector3() ));
 
 			ball.position.add( ball.velocity );
 
