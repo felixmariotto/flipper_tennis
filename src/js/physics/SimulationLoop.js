@@ -62,7 +62,7 @@ function update( delta ) {
 		ball.mesh.position.copy( ball.position );
 
 		// recover ball when it was lost
-		if ( ball.position.z > 3 ) {
+		if ( ball.position.z > 1.5 ) {
 
 			ball.remove();
 

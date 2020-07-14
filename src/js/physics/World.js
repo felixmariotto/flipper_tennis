@@ -9,6 +9,12 @@ import Scene from '../core/Scene.js';
 // Instantiate a loader
 const loader = new GLTFLoader();
 
+let navGeometry;
+
+const plane = new THREE.Plane();
+
+const ray = new THREE.Ray();
+
 /*
 // Optional: Provide a DRACOLoader instance to decode compressed mesh data
 var dracoLoader = new DRACOLoader();
@@ -20,6 +26,22 @@ loader.setDRACOLoader( dracoLoader );
 loader.load( 'https://vr-games-host.s3.eu-west-3.amazonaws.com/projects/flipper_tennis/game_assets/01.glb', ( gltf ) => {
 
 	Scene.threeScene.add( gltf.scene );
+
+	// parse nav geometry used for ball collision
+
+	gltf.scene.traverse( (child) => {
+
+		if ( child.name === 'navmesh' ) {
+
+			navGeometry = new THREE.Geometry().fromBufferGeometry( child.geometry );
+
+			navGeometry.rotateX( child.rotation.x );
+			navGeometry.rotateY( child.rotation.y );
+			navGeometry.rotateZ( child.rotation.z );
+
+		}
+
+	})
 
 });
 
@@ -67,8 +89,17 @@ function checkGoal( ball ) {
 
 // FUNCTIONS
 
+// holds the last position of the ball
+const ballsPos = {};
+
+const intersectVec = new THREE.Vector3();
+
 function bounceBall( ball ) {
 
+	// abort is there is no navGeometry to test for intersection
+	if ( !navGeometry ) return
+
+	/*
 	planes.forEach( (plane) => {
 
 		if ( plane.distanceToPoint( ball.position ) < 0 ) {
@@ -87,7 +118,103 @@ function bounceBall( ball ) {
 
 		}
 
-	})
+	});
+	*/
+
+	// check if there is a record for this ball to compute intersection
+	if ( ballsPos[ ball.id ] ) {
+
+		// set ray from previous and current ball position
+
+		ray.origin.copy( ballsPos[ ball.id ] );
+
+		ray.lookAt( ball.position );
+
+		// get distance from previous to current position
+
+		const ballTravetDist = Math.abs( ballsPos[ ball.id ].distanceTo( ball.position ) )
+
+		// compute intersection for every face in the navGeometry
+
+		let collisions = [];
+
+		navGeometry.faces.forEach( (face) => {
+
+			// get the three vertices of the face
+			const vertices = [
+				navGeometry.vertices[ face.a ],
+				navGeometry.vertices[ face.b ],
+				navGeometry.vertices[ face.c ]
+			];
+
+			// get intersection between the ray and the face
+			ray.intersectTriangle(
+				vertices[0],
+				vertices[1],
+				vertices[2],
+				false,
+				intersectVec
+			);
+
+			// get distance from ray origin to intersection
+			const rayToFaceDist = Math.abs( ray.origin.distanceTo( intersectVec ) )
+
+			if ( ballTravetDist > rayToFaceDist ) {
+
+				collisions.push({
+					face,
+					distanceInside: ballTravetDist - rayToFaceDist
+				})
+
+				// temp
+				vertices.forEach( (vertex) => {
+
+					const helper = new THREE.Mesh(
+						new THREE.SphereBufferGeometry( 0.03, 8, 8 ),
+						new THREE.MeshNormalMaterial()
+					);
+
+					helper.position.copy( vertex );
+
+					// Scene.add( helper );
+
+				});
+
+			}
+
+		});
+
+		// sort collision to get the more relevant
+
+		collisions = collisions.sort( (a, b) => {
+
+			if ( a.distanceInside > b.distanceInside ) return -1
+			else if ( a.distanceInside > b.distanceInside ) return 1
+			else return 0
+
+		});
+
+		// bounce the ball
+
+		if ( collisions.length > 0 ) {
+
+			ball.velocity.reflect( collisions[0].face.normal );
+
+		}
+
+	}
+
+	// record current ball position for later
+
+	if ( !ballsPos[ ball.id ] ) {
+
+		ballsPos[ ball.id ] = new THREE.Vector3().copy( ball.position );
+
+	} else {
+
+		ballsPos[ ball.id ].copy( ball.position );
+
+	}
 
 }
 
