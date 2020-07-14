@@ -16,7 +16,7 @@ const RACKET_START_ROT = new THREE.Euler( Math.PI / 2, 0, 0 );
 const RACKET_MATERIAL = new THREE.MeshBasicMaterial({ color: 0x999999 });
 
 // angle by which the racket is rotated inside the controller space
-const RACKET_ROT_CORRECT = new THREE.Euler( 0, Math.PI / 2, 0 );
+const RACKET_ROT_CORRECT = new THREE.Euler( 0, 0, Math.PI / 2 );
 
 const rackets = [];
 
@@ -32,7 +32,7 @@ function Racket() {
 	);
 
 	const mesh = new THREE.Mesh( racketGeom, RACKET_MATERIAL );
-	mesh.rotation.set( 0, 0, Math.PI / 2 );
+	mesh.rotation.copy( RACKET_ROT_CORRECT );
 
 	return {
 		mesh,
