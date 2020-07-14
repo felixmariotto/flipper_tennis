@@ -232,14 +232,7 @@ function collideBallRacket( ball, racket, ballStart, ballEnd, racketStart, racke
 		// check if the ball is within the area of the racket
 		} else if ( distanceSets[0].ball.distanceTo( distanceSets[0].racket.position ) < racket.radius ) {
 
-			const ballSpeed = ball.velocity.length();
-
-			// ball.velocity.negate();
-			ball.velocity
-			// .applyEuler( racket.rotation )
-			.applyQuaternion( racket.bounceDummy.getWorldQuaternion() )
-			.normalize()
-			.multiplyScalar( ballSpeed );
+			ball.velocity.negate();
 
 			ball.velocity.add( racket.velocity );
 

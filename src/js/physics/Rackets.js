@@ -34,15 +34,8 @@ function Racket() {
 	const mesh = new THREE.Mesh( racketGeom, RACKET_MATERIAL );
 	mesh.rotation.copy( RACKET_ROT_CORRECT );
 
-	// used to get the orientation of bounced ball when hit racket
-	const bounceDummy = new new THREE.Object3D();
-	bounceDummy.rotation.set( 0.48, 1.42, 0.86 );
-
-	mesh.add( bounceDummy );
-
 	return {
 		mesh,
-		bounceDummy,
 		radius: RACKET_RADIUS,
 		position: new THREE.Vector3().copy( RACKET_START_POS ),
 		rotation: new THREE.Euler().copy( RACKET_START_ROT ),
