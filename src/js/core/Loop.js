@@ -31,6 +31,8 @@ function loop() {
 
 	Renderer.render();
 
+	// console.log( Renderer.threeRenderer.info.render.calls )
+
 }
 
 //

@@ -12,7 +12,7 @@ const planes = [
 ];
 
 const roomMesh = new THREE.Mesh(
-	new THREE.BoxBufferGeometry( 2.5, 2.5, 300 ),
+	new THREE.BoxBufferGeometry( 1.5, 1.5, 300 ),
 	new THREE.MeshNormalMaterial({ side: THREE.BackSide })
 );
 roomMesh.position.set( 0, 1.25, 0 )

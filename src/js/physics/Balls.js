@@ -45,9 +45,9 @@ function remove() {
 
 	balls.splice( balls.indexOf( this ), 1 );
 
-	this.mesh.geometry.dispose();
+	Scene.threeScene.remove( this.mesh );
 
-	Scene.threeScene.remove( this );
+	this.mesh.geometry.dispose();
 
 }
 
