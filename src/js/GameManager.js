@@ -13,4 +13,10 @@ function startGame() {
 
 	Balls.popBall();
 
+	setTimeout( () => {
+
+		Balls.popBall();
+
+	}, 1000 );
+
 }

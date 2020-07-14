@@ -71,5 +71,6 @@ function bounceBall( ball ) {
 }
 
 export default {
-	bounceBall
+	bounceBall,
+	checkGoal
 }
