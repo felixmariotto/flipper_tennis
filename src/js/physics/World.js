@@ -1,6 +1,27 @@
 
 import * as THREE from 'three';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+
 import Scene from '../core/Scene.js';
+
+// ROOM MODEL
+
+// Instantiate a loader
+const loader = new GLTFLoader();
+
+/*
+// Optional: Provide a DRACOLoader instance to decode compressed mesh data
+var dracoLoader = new DRACOLoader();
+dracoLoader.setDecoderPath( '/examples/js/libs/draco/' );
+loader.setDRACOLoader( dracoLoader );
+*/
+
+// Load a glTF resource
+loader.load( 'https://vr-games-host.s3.eu-west-3.amazonaws.com/projects/flipper_tennis/game_assets/01.glb', ( gltf ) => {
+
+	Scene.threeScene.add( gltf.scene );
+
+});
 
 // ROOM
 
@@ -17,7 +38,7 @@ const roomMesh = new THREE.Mesh(
 );
 roomMesh.position.set( 0, 1.25, 0 )
 
-Scene.threeScene.add( roomMesh );
+// Scene.threeScene.add( roomMesh );
 
 // GOAL
 
