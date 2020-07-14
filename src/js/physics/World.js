@@ -16,6 +16,16 @@ planes.forEach( (plane) => {
 
 });
 
+const roomMesh = new THREE.Mesh(
+	new THREE.BoxBufferGeometry( 2.5, 2.5, 300 ),
+	new THREE.MeshNormalMaterial()
+);
+roomMesh.position.set( 0, 1.25, 0 )
+
+scene.add( roomMesh );
+
+// FUNCTIONS
+
 function bounceBall( ball ) {
 
 	planes.forEach( (plane) => {
