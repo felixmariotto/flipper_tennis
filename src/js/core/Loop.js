@@ -1,4 +1,6 @@
 
+import ThreeMeshUI from 'three-mesh-ui';
+
 import Renderer from './Renderer.js';
 import Camera from './Camera.js';
 import clock from './clock.js';
@@ -24,6 +26,8 @@ function loop() {
 		SimulationLoop.update( clockDelta / ticks );
 
 	};
+
+	ThreeMeshUI.update();
 
 	Raycasting.update();
 
