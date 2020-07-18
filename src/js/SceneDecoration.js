@@ -5,6 +5,8 @@ import { BoxLineGeometry } from 'three/examples/jsm/geometries/BoxLineGeometry.j
 import Scene from './core/Scene.js';
 import Raycasting from './Raycasting.js';
 
+import Menu from './Menu.js';
+
 //
 
 /*
@@ -24,3 +26,7 @@ const roomMesh = new THREE.Mesh(
 );
 
 Raycasting.addPointerObstacle( roomMesh );
+
+//
+
+Scene.add( Menu.bigScreen );

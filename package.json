@@ -13,7 +13,8 @@
   "license": "MIT",
   "dependencies": {
     "express": "^4.17.1",
-    "three": "^0.118.1"
+    "three": "^0.118.1",
+    "three-mesh-ui": "^4.3.2"
   },
   "devDependencies": {
     "html-webpack-plugin": "^4.3.0",
